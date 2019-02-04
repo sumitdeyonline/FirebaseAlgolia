@@ -23,6 +23,7 @@ const ALGOLIA_ADMIN_KEY = "48b207b10886fb32395d5b3ad97f338f";
 const ALGOLIA_INDEX_NAME_POST_JOB = "PostJob";
 const ALGOLIA_INDEX_NAME_USER_PROFILE = "UserProfile";
 
+//admin.settings({timestampsInSnapshots: true});
 admin.initializeApp(functions.config().firebase);
 
 
@@ -30,7 +31,8 @@ admin.initializeApp(functions.config().firebase);
 exports.addFirestorePostJobDataToAlgolia = functions.https.onRequest((req, res) => {
 
 	var arr = [];
-	admin.firestore().collection("PostJob").get().then((docs) => {
+	admin.firestore().settings({ timestampsInSnapshots: true }).collection("PostJob").get().then((docs) => {
+  //admin.firestore().collection("PostJob").get().then((docs) => {
 		docs.forEach((doc) => {
       let jsite = doc.data();
       jsite.objectID = doc.id;
